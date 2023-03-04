@@ -1,0 +1,7 @@
+{% block content %}
+    <h1><u>{{ message }}</u></h1>
+
+    {% for each in poke_info['abilities'] %}
+        <a href="{{ url_for('pokemon_with_ability', ability_name=each) }}"><h3>{{ each }}</h3></a>
+    {% endfor %}
+{% endblock %}

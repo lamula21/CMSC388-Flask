@@ -12,10 +12,10 @@ def index():
     Check the README for more detail.
     """
     # get the list of pokemons
-    pokemons = poke_client.get_pokemon_list()
+    pokemon_names = poke_client.get_pokemon_list()
 
-    return render_template('index.html', pokemons=pokemons)
-    # pokemons= pokemon_names allows us to use the variable pokemon_names in the index.html file
+    return render_template('index.html', pokemons=pokemon_names)
+    # pokemons=pokemon_names allows us to use the variable pokemon_names in the index.html file
 
 @app.route('/pokemon/<pokemon_name>')
 def pokemon_info(pokemon_name):
@@ -25,15 +25,11 @@ def pokemon_info(pokemon_name):
     Check the README for more detail
     """
 
-    # pokemon = poke_client.get_pokemon_info(pokemon_name)
+    pokemon_dic_info = poke_client.get_pokemon_info(pokemon_name)
 
-
-    # abilities = pokemon['abilities']
-    # abilities = [each['ability']['name'] for each in abilities]
-    # pokemon['abilities'] = abilities
-
-    # return render_template('pokemon.html', pokemon=pokemon)
-    return f'This is {pokemon_name}\'s user profile'
+    message = f'This is {pokemon_name}\'s stats'
+    
+    return render_template('pokeinfo.html', poke_info=pokemon_dic_info, message=message)
 
 
 @app.route('/pokemon/ability/<ability_name>')
@@ -43,4 +39,9 @@ def pokemon_with_ability(ability_name):
 
     Check the README for more detail
     """
-    pass
+    pokemon_with_ability = poke_client.get_pokemon_with_ability(ability_name)
+
+    message1 = f'Pokemons with the ability {ability_name}'
+    message2 = f'Go back to the home page'
+
+    return render_template('abilityinfo.html', pokemons = pokemon_with_ability, message1=message1, message2=message2)

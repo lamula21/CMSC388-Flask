@@ -91,17 +91,17 @@ class PokeClient(object):
 if __name__=='__main__':
     client = PokeClient()
     l = client.get_pokemon_list()
-    print(len(l))
-    print(l[1])
+    print(len(l))   # 1200
+    print(l[1])     # bulbasaur
 
     i = client.get_pokemon_info(l[1])
-    print(i.keys())
-    print(i['name'])
-    print(i['base_exp'])
-    print(i['weight'])
-    print(i['height'])
-    print(i['abilities'])
-    print(len(i['moves']))
+    print(i.keys())         # dict_keys(['name', 'height', 'weight', 'base_exp', 'moves', 'abilities'])
+    print(i['name'])        # bulbasaur
+    print(i['base_exp'])    # 64
+    print(i['weight'])      # 69
+    print(i['height'])      # 7
+    print(i['abilities'])   # ['overgrow', 'chlorophyll']
+    print(len(i['moves']))  # 77
 
 
     p = client.get_pokemon_with_ability('tinted-lens')
