@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block header %}
+
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Movie Reviewer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="event.preventDefault();
+                                                        document.getElementById('dark-mode-form').submit();
+                                                        ">
+                {% if current_user.dark_mode %}
+                    <i class="bi bi-moon"></i>
+                    <style>
+
+                        body{
+                            background-color: #fff;
+                            color: #2d3436;
+                            transition: 2s;
+                        }
+                        body:hover {
+                            background-color: #2d3436;
+                            color: #fff;
+                        }
+
+                        /* add more CSS rules for dark mode */
+                      </style>
+                {% else %}
+                    <i class="bi bi-brightness-high-fill"></i>
+                    <style>
+                        body {
+                            background-color: #2d3436;
+                            color: #fff;
+                            transition: 2s;
+                        }
+                        body:hover {
+                            background-color: #fff;
+                            color: #2d3436;
+                        }
+                        
+                        /* add more CSS rules for light mode */
+                    </style>
+                {% endif %}
+                </a>
+
+                <form id="dark-mode-form" action="{{ url_for('dark_mode') }}" method="POST" style="display: none;">
+                    {{ dark_mode_form.csrf_token }}
+                </form>
+
+                <script>
+                    // Select the dark mode form
+                    const darkModeForm = document.querySelector("#dark-mode-form");
+                
+                    // Function to submit the form after a 3-second delay
+                    const submitForm = () => {
+                        setTimeout(() => {
+                            darkModeForm.submit();
+                        }, 3000); // 3-second delay
+                    }
+                
+                    // Attach the submitForm function to the anchor tag
+                    const darkModeLink = document.querySelector(".nav-link");
+                    darkModeLink.addEventListener("click", (event) => {
+                        event.preventDefault();
+                        submitForm();
+                    });
+                </script>
+
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('account') }}">
+                    Account
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">
+                    Login
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">
+                    Register
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}

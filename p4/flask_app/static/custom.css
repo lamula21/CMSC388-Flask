@@ -1,6 +1,9 @@
-movie {
-    max-width: 80;
-    padding: 1; 
+body {
+    font-family: 'Sono', sans-serif;
+}
+
+.media {
+    margin: 20px; 
 }
 
 .card-body > img {
@@ -15,10 +18,184 @@ movie {
     border-bottom: 1px dashed #a5a5a5;
 }
 
+
+
+
+/* -----------------------------MY CSS----------------------------- */
+.container{
+    height: 140%;
+}
+.container-child{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.col {
+    flex-basis: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    text-align: center;
+    }
+    div.col.file{
+        width: 350px;
+        left: 45px;
+    }
+    .col.file input[type="submit"] {
+        margin-left: -80px;
+    }
+    .register {
+        width:450px;
+
+    }
+
+/* place labels to the leftmost of the box */
+label[for="username"], 
+label[for="inputGroupFile01"], 
+label[for="email"],
+label[for="password"],
+label[for="confirm_password"],
+label[for="current"] {
+    display: block;
+    text-align: left;
+}
+
+/* Hide FLash Message */
+.alert-container{
+    overflow:hidden;
+}
+.alert {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 0.35rem;
+    text-align: left;
+
+    animation: fadeOut 0.3s ease-in-out 10s forwards;
+    }
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+            height: 0;
+            padding: 0;
+            margin: 0;
+            overflow: hidden;
+        }
+    }
+    
+
 .propic {
+    border-radius: 25%;
+    width: 200px;
+    height: 200px;
     max-width: 50%;
 }
 
 .comment-pic {
     max-width: 64px;
 }
+
+
+.nav-item:has(i){
+    font-size: 25px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+
+.btn-primary {
+    border-radius: 25px;
+    }
+    .btn-primary:focus {
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+    }
+
+.mb-2{
+    padding: 10px;
+}
+
+.text-field-index{
+    width: 900px;
+}
+
+.jumbotron {
+    transition: 1.5s;
+}
+.jumbotron:hover {
+    color:black;
+    transition: 1s;
+    cursor:default
+}
+
+/*------------query.html CSS--------------*/
+.carousel-item {
+    height: 450px;
+    object-fit: cover;
+    }
+    .carousel-caption {
+        border-radius: 7px;
+        background-color: rgba(0, 0, 0, 0.5);
+        padding: 20px;
+    }
+
+.card {
+    background-color: rgba(0, 0, 0, 0.598);
+    transition: all 0.3s ease-in-out;
+    }
+    .card:hover {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.998);
+        background-color: rgba(0, 0, 0, 0.847);
+        transition: all 0.3s ease-in-out;
+    }
+    .card:hover .card-img-overlay {
+        background-color: rgba(0, 0, 0, 0.431);
+        transition: all 0.3s ease-in-out;
+    }
+
+
+.card-title{
+    margin: 5px 0 0 10px;
+    text-align: left;
+    overflow: hidden;
+    color: white;
+    }
+    .card-text{
+        color: white;
+        margin-left: -5px;
+    }
+
+/* Add circle around previous and next icons */
+.carousel-control-prev, .carousel-control-next {
+    background-color: #555;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-left: 20px;
+    margin-right: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    } 
+    /* Change arrows size */
+    .carousel-control-prev-icon, .carousel-control-next-icon {
+        background-size: 50%;
+        width: 45px;
+        height: 45px;
+    }
+
+
+
+

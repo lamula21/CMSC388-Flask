@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% block header %}
+
+{% if current_user.dark_mode %}
+<script defer>
+    const dark_icon = document.getElementById('toggleDark')
+    dark_icon.classList.toggle('bi-moon')
+</script>
+<style>
+    body {
+      background-color: #2d3436;
+      color: #fff;
+    }
+    
+    /* add more CSS rules for dark mode */
+  </style>
+{% else %}
+<script defer>
+    const light_icon = document.getElementById('toggleDark')
+    dark_icon.classList.toggle('bi-brightness-high-fill')
+</script>
+<style>
+    body {
+      background-color: #fff;
+      color: #2d3436;
+    }
+    
+    /* add more CSS rules for light mode */
+  </style>
+{% endif %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{ url_for('index') }}">Movie Reviewer</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+            {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="bi bi-brightness-high-fill" id="toggleDark"></i>
+                </a>
+                <script>
+                    // Select by id from html
+                    const toggle = document.getElementById('toggleDark')
+
+                    // Select by tags from html
+                    const body = document.querySelector('body')
+
+                    // get user preference from session
+                    const mode = "{{ session.get('mode', 'light') }}";
+
+                    toggle.addEventListener('click', function() {
+                        // toggle() -> change it if it's not present, or remove if it is
+                        this.classList.toggle('bi-moon')
+
+                        // if dark mode, toggle to light
+                        if(this.classList.toggle('bi-brightness-high-fill')) {
+                            body.style.background = 'white';
+                            body.style.color = 'black';
+                            body.style.transition = '2s';
+
+
+                        } else { // if light, toggle to dark
+                            body.style.background = '#2d3436';
+                            body.style.color = '#fff';
+                            body.style.transition = '2s';
+
+                        }
+                    }) 
+                </script>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('account') }}">
+                    Account
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('logout') }}">
+                    Logout
+                </a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('login') }}">
+                    Login
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url_for('register') }}">
+                    Register
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+
+<div class="container">
+    {% block content %}{% endblock %}
+</div>
+{% endblock %}

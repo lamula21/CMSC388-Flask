@@ -12,7 +12,8 @@ from wtforms.validators import (
     EqualTo,
     ValidationError,
 )
-
+from flask_bcrypt import Bcrypt
+from . import bcrypt
 
 from .models import User
 
@@ -54,12 +55,48 @@ class RegistrationForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    pass
+    username = StringField(
+        "Enter Username", validators=[InputRequired(), Length(min=1, max=40)]
+    )
+
+    password = PasswordField("Enter Password", validators=[InputRequired(), Length(min=1)])
+
+    submit = SubmitField("Log In")
 
 
 class UpdateUsernameForm(FlaskForm):
-    pass
+    username = StringField(
+        "Change Username", validators=[InputRequired(), Length(min=1, max=40)]
+    )
+    # flash message
+    submit = SubmitField("Update")
 
 
 class UpdateProfilePicForm(FlaskForm):
-    pass
+    picture = FileField(
+        "Change Avatar",
+        validators=[
+            FileRequired(), 
+            FileAllowed(["jpg", "png"], "Images Only!")
+        ]
+    )
+    submit = SubmitField("Update")
+
+
+class UpdatePasswordForm(FlaskForm):
+    current = PasswordField("Change Password",validators=[InputRequired(), Length(min=1)])
+    new_password = PasswordField(validators=[InputRequired(), Length(min=1)])
+    confirm = PasswordField(validators=[InputRequired(), EqualTo("new_password")])
+    submit = SubmitField("Update")
+
+    # To validate, it has to be named validate_{UpdatePasswordForm.field}
+    def validate_current(self, current):
+        user = User.objects(username=current_user.username).first()
+        if not bcrypt.check_password_hash(user.password, current.data):
+            raise ValidationError("Password does not match.")
+
+
+# Form to save user theme
+class DarkModeForm(FlaskForm):
+    # hidden submit button
+    submit = SubmitField('Submit', render_kw={'hidden': True})

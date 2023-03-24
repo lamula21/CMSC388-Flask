@@ -2,17 +2,19 @@
 {% block content %}
 
 {% if error_msg %}
-<b>{{ error_msg }}</b>
+    <div class="alert alert-danger" role="alert">
+        <span>{{ error_msg }}</span>
+    </div>
 {% endif %}
 
-{% if movie %}
 
+{% if movie %}
 {# Display card for the movie details #}
 <div class="row">
   <div class="col">
     <div class="card text-center">
       <div class="card-header">
-        {{ movie.title }} ({{ movie.year }})
+        <h5 style="color:#d4d0d0">{{ movie.title }} ({{ movie.year }})</h5>
       </div>
       <div class="card-body">
         <img src="{{ movie.poster_url }}" class="mr-3 movie" alt="alt text">
@@ -52,15 +54,15 @@
   </div>
 </div>
 
-{% if current_user.is_authenticated %}
 {# Movie review submission form #}
+{% if current_user.is_authenticated %}
 <div class="row">
   <div class="col">
     <form method="POST" action="">
       {{ form.csrf_token }}
       <div class="form-group">
         {{ form.text.label }}
-        {{ form.text(class="form-control") }}
+        {{ form.text(class="form-control", placeholder="Write a comment...") }}
 
         {% if form.text.errors %}
         <div class="alert alert-warning" role="alert">
@@ -71,7 +73,7 @@
         {% endif %}
 
       </div>
-      {{ form.submit() }}
+      {{ form.submit(class="btn btn-outline-success submit-button") }}
     </form>
   </div>
 </div>

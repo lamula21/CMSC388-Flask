@@ -1,22 +1,57 @@
 {% extends "header.html" %}
 {% block content %}
-<div class="row">
-    <div class="col">
-        {# Display any error messages #}
+
+
+{# Display any error messages #}
+<div class="container-child">
+    <div class="row">
+        <div class="col">
+            {% if error_msg %}
+            <div class="alert alert-danger">{{ error_msg }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            {# User's Profile Picture #}
+            <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
+        </div>
+        <div class="col">
+            {# Indicate which user's reviews we're looking at #}
+            <p>{{ user_review|length }} reviews by {{ username }}</p>
+        </div>
+    </div>
+
+
+
+    <div class="row row-cols-1 row-cols-md-2 g-4" style="max-width: 40rem;">
+        {% for movie,review in movies_reviews %}
+        <div class="col">
+            <div class="card">
+
+                <a href="{{ url_for('movie_detail', movie_id=review.imdb_id) }}">
+                    <img src="{{ movie.poster_url }}" class="card-img-top" alt="alt text" height="800">
+                </a>
+
+                <div class="card-body" style="color: #cec8c8">
+                    Review created: {{ review.date }} <br>
+                    
+                    Movie:
+                    <a href="{{ url_for('movie_detail', movie_id=review.imdb_id) }}">{{ review.movie_title }}
+                    </a> <br>
+                    <p class="text-muted">
+                        <i class="bi bi-quote"></i>
+                        {{ review.content }}
+                    </p>
+
+                </div>
+            </div>
+        </div>
+        {% endfor %}
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        {# User's Profile Picture #}
-        <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
-    </div>
-    <div class="col">
-        {# Indicate which user's reviews we're looking at #}
-    </div>
-</div>
-<div class="row">
-    <div class="col">
-        {# Show all reviews made by the user #}
-    </div>
-</div>
+
+
 {% endblock %}

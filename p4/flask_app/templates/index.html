@@ -2,24 +2,40 @@
 {% block content %}
 
 <div class="row">
+
+    {# Search bar #}
     <div class="col">
         <form action="/" class="form-inline my-2 my-lg-0" method="POST">
             {{ form.csrf_token }}
-            {{ form.search_query(class="form-control", placeholder="Search") }}
-
-            {% if form.search_query.errors %}
-            <div class="alert alert-warning" role="alert">
-                {% for error in form.search_query.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            {{ form.submit(class="btn btn-outline-success") }}
+    
+            {{ form.search_query(class="form-control", id="search", placeholder="Type your favorite movie...", style="position:relative;left:15px; width: 970px") }}
+            {{ form.submit(class="btn btn-outline-success btn btn-outline-secondary submit-button index") }}
         </form>
     </div>
     <div class="col">
-        <h2>Please use the search bar to search for movies! Then you can review them </h2>
+        <div class="container">
+            <div class="jumbotron">
+                <div class="d-flex justify-content-center align-items-center">
+                    <h1>Welcome to Movie Reviewer!</h1>
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_dpohsucu.json"  background="transparent"  speed="1"  style="width: 80px; height: 80px; margin: 0 0 20px 5px"  loop  autoplay></lottie-player>
+                </div>
+                <p>Please use the search bar to search for movies! Then you can review them </p>
+            </div>     
+        </div>
+
+
+        {% if not current_user.is_authenticated %}
+        <div class="container">
+            <div class="jumbotron">
+                <h1>New feature added!</h1> 
+                <div class="d-flex justify-content-center align-items-center">
+                    <p> Log-in to try it</p>
+                    <lottie-player src="https://assets6.lottiefiles.com/packages/lf20_igxek0qe.json"  background="transparent"  speed="1"  style="width: 30px; height: 30px; margin: 0 0 15px 10px;"  loop  autoplay></lottie-player>
+                </div>
+            </div>     
+        </div>
+        {% endif %}
+        
     </div>
 </div>
 {% endblock %}

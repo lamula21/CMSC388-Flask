@@ -1,5 +1,77 @@
 {% extends "base.html" %}
 {% block header %}
+
+{# When user login, default mode (ligh or dark theme) in all pages #}
+{% if current_user.dark_mode%}
+    <style>
+        body{
+            background-color: #2d3436;
+            color: #fff;
+        }
+        #submit {
+            border-radius: 25px;
+            background-color: white;
+            border-color: #343a40;
+            color: black;
+            transition: 0.5s;
+
+            }
+            #submit:hover {
+                background-color: black;
+                border-color: black;
+                color: white;
+                transition: 0.5s;
+            }
+            #submit:active{
+                background-color: white;
+                color: black;
+                transition: 0.5s;
+            }
+            input.index{
+                position: absolute;
+                left: 1020px;
+            }
+        .jumbotron {
+            color: #00000080;
+        }
+
+    </style>
+
+{% else %}
+    <style>
+        body {
+            background-color: #fff;
+            color: #2d3436;
+        }
+
+        #submit {
+            border-radius: 25px;
+            background-color: #232728;
+            border-color: #343a40;
+            color: white;
+            transition: 0.5s;
+            }
+            #submit:hover {
+                background-color: white;
+                border-color: black;
+                color: black;
+                transition: 0.5s;
+            }
+            #submit:active{
+                background-color: black;
+                color: white;
+                transition: 0.5s;
+            }
+            input.index{
+                position: absolute;
+                left: 1020px;
+            }
+            .jumbotron {
+                color: #00000080;
+            }
+    </style>
+{% endif %}
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ url_for('index') }}">Movie Reviewer</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
@@ -8,8 +80,45 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav ml-auto">
+        <ul class="navbar-nav ml-auto" style="height: 44px">
             {% if current_user.is_authenticated %}
+            <li class="nav-item">
+                
+                <a href="#" class="nav-link" onclick="event.preventDefault();">
+                    {# Set the bootstrap icon for dark/light theme #}
+                    {% if current_user.dark_mode %}
+                        <i class="bi bi-moon icon-transition" id="dark"></i>
+                    {% else %}
+                        <i class="bi bi-brightness-high-fill icon-transition" id="light"></i>
+                    {% endif %}
+                </a>
+
+                {# form to change user theme mode in the database #}
+                <form id="dark-mode-form" action="{{ url_for('dark_mode') }}" method="POST">
+                    {{ dark_mode_form.csrf_token }}
+                </form>
+
+                <script>
+                    // Select the dark mode form
+                    const darkModeForm = document.querySelector("#dark-mode-form");
+                
+                    // Function to submit the form after a 2-second delay
+                    const submitForm = () => {
+                        setTimeout(() => {
+                            darkModeForm.submit();
+                        }, 2000); // 2-second delay
+                    }
+                
+                    // when anchor is pressed, submit dark_mode_form after 2 seconds
+                    const themeAnchor = document.querySelector(".nav-link");
+                    themeAnchor.addEventListener("click", (event) => {
+                        event.preventDefault();
+                        submitForm();
+                    });
+                </script>
+
+            </li>
+
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('account') }}">
                     Account
@@ -36,6 +145,46 @@
     </div>
 </nav>
 
+{# when clicked on dark icon, change to light mode #}
+<script>
+    const submitButtons = document.getElementsByClassName('submit-button');
+            
+    if (!(document.getElementById("dark") === null) ){
+        const dark = document.getElementById("dark")
+        dark.addEventListener("click", function() {
+            document.body.style.background = "#fff";
+            document.body.style.color = "#2d3436";
+            dark.classList.replace('bi-moon','bi-brightness-high-fill')   
+            document.body.style.transition = "2s";
+
+            for (let i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.background = 'black';
+                submitButtons[i].style.color = 'white';
+            }            
+        });
+    }
+</script>
+
+{# when clicked on light icon, change to dark mode #}
+<script>
+    if (!(document.getElementById("light") === null) ){
+        const light = document.getElementById("light")
+        light.addEventListener("click", function() {            
+            document.body.style.background = "#2d3436";
+            document.body.style.color = "#fff";
+            light.classList.replace('bi-brightness-high-fill', 'bi-moon');
+            document.body.style.transition = "2s";
+            
+            
+            for (let i = 0; i < submitButtons.length; i++) {
+                submitButtons[i].style.background = 'white';
+                submitButtons[i].style.color = 'black';
+            }
+            
+        });
+    }
+      
+</script>
 
 <div class="container">
     {% block content %}{% endblock %}

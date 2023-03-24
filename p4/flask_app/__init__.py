@@ -19,17 +19,21 @@ from datetime import datetime
 from .client import MovieClient
 
 app = Flask(__name__)
+# change localhost to 27017
 app.config["MONGODB_HOST"] = "mongodb://localhost:27017/project_4"
-app.config["SECRET_KEY"] = ""
+app.config['SECRET_KEY'] = b'"\x7f\xa1\xc0Q!\x9e:\x1b4\xb7{0\xf0\xd8\xf4'
 
 app.config.update(
     SESSION_COOKIE_HTTPONLY=True,
     SESSION_COOKIE_SAMESITE="Lax",
 )
 
-db = MongoEngine(app)
+db = MongoEngine(app) # Enforce our User schema class
+
+# Initiate LoginManager
 login_manager = LoginManager(app)
 login_manager.login_view = "login"
+
 bcrypt = Bcrypt(app)
 
 # replace "default_value" with your api key if you need to hardcode it

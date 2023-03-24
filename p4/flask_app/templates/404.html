@@ -1,0 +1,38 @@
+{% extends "header.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Oops!</h1>
+            <p>We can't seem to find the page you're looking for.</p>
+            <p>Error code: 404</p>
+            <p>Here are some helpful links instead:</p>
+            <a href="{{ url_for('index') }}">
+                <div class="d-flex align-items-center">
+                    <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_k3ymitp9.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></lottie-player>
+                    <span style="margin-left: 10px;"> Home</span>
+                </div>
+            </a> <br>
+            <a href="{{ url_for('register') }}">
+                <div class="d-flex align-items-center">
+                    <lottie-player src="https://assets9.lottiefiles.com/private_files/lf30_flqrcuno.json" background="transparent" speed="1" style="width: 30px; height: 30px;" loop autoplay></lottie-player>
+                    <span style="margin-left: 10px;"> Register</span>
+                </div>
+            </a> <br>
+            <a href="{{ url_for('login') }}">
+                <div class="d-flex align-items-center">
+                    <lottie-player src="https://assets3.lottiefiles.com/packages/lf20_yl3d4u28.json" mode="bounce" background="transparent" speed="1" style="width: 30px; height: 30px; color:black" loop autoplay></lottie-player>
+                    <span style="margin-left: 10px;"> Login</span>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-6 d-flex justify-content-left align-items-center">
+            <lottie-player class="lottie-login" src="https://assets1.lottiefiles.com/packages/lf20_bhw1ul4g.json" background="transparent" speed="1" style="width: 450px; height: 450px;" loop autoplay></lottie-player>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,27 +1,164 @@
 {% extends "header.html" %}
 {% block content %}
-<div class="row">
+
+{# Flash Message #}
+<div class="row alert-container">
     <div class="col">
-        {# Profile picture #}
-        <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
-    </div>
-    <div class="col">
-        {# Greeting #}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category,message in messages %}
+                <div class="alert alert-{{ category }}" role="alert">
+                    {% if category == "success" %}
+                        <i class="bi bi-check-circle"></i>
+                    {% elif category == 'danger' %}
+                        <i class="bi bi-slash-circle"></i>
+                    {% elif category == 'warning' %}
+                        <i class="bi bi-exclamation-triangle"></i>
+                    {% elif category == 'primary' %}
+                        <i class="bi bi-exclamation-circle"></i>
+                    {% endif %}
+                    {# Close button for Flash Message #}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif%}
+        {% endwith %}
     </div>
 </div>
-<div class="row">
-    <div class="col">
-        {# Username Update Form #}
+
+{# Main Page #}
+<div class="container-child">
+    {% if current_user.is_authenticated %}
+    <div class="row">
+        <div class="col">
+            {# Profile picture #}
+            <b-avatar></b-avatar>
+
+            <img class="propic" src="data:image/png;base64,{{image}}" alt="image">
+            <h5 class="mb-2">
+                <strong>{{ current_user.username }}</strong>
+                <span class="badge badge-warning">
+                    <i class="bi bi-star-fill"></i>
+                    TOP CRITIC
+                </span>
+            </h5>
+
+        </div>
+        <div class="col">
+            {# Greeting #}
+            <div class="d-flex justify-content-center align-items-center" style="position:relative;left: 20px">
+                <h1> Hey {{current_user.username }}</h1>
+                <lottie-player src="https://assets4.lottiefiles.com/packages/lf20_fft5vg8j.json"  background="transparent"  speed="1"  style="width: 100px; height: 100px; padding: 0px 0px 35px 0px;"  loop  autoplay></lottie-player>
+            </div>
+            <h2> Welcome Back!</h2>
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        {# Profile Picture Update Form #}
+
+    {# Username Update Form #}
+    <div class="row">
+        <div class="col">
+            <form action="" method="post">
+                {{ nameform.csrf_token }}
+                <div class="form-group">
+                    {{ nameform.username.label }} {# label for the text field #}
+                    {{ nameform.username(class="form-control", placeholder="user#0001") }} {# text field #}
+
+                    {% if nameform.username.errors %}
+                    <div class="alert alert-warning" role="alert">
+                        {% for error in nameform.username.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+
+                </div>
+                {{ nameform.submit(class="btn btn-outline-success submit-button") }}
+            </form>
+
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        {# Link to see all of the current user's reviews. #}
+
+    {# Password Update Form #}
+    <div class="row">
+        <div class="col">
+            <form action="" method="post">
+                {{ passform.csrf_token }}
+                <div class="form-group">
+                    
+                    {{ passform.current.label}} {# label for the text field #}
+                    {{ passform.current(class="form-control", placeholder="Current password", style="margin: 0 0 5px 0") }} {# text field #}
+                    {{ passform.new_password(class="form-control", placeholder="New password", style="margin: 0 0 5px 0") }} 
+                    {{ passform.confirm(class="form-control", placeholder="Re-type new password", style="margin: 0 0 5px 0") }}
+
+                    {% if passform.current.errors %}
+                        {% for error in passform.current.errors %}
+                            <div class="alert alert-warning" role="alert">
+                                <span>{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if passform.new_password.errors %}
+                        {% for error in passform.new_password.errors %}
+                            <div class="alert alert-warning" role="alert">
+                                <span>{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+
+                    {% if passform.confirm.errors %}
+                        {% for error in passform.confirm.errors %}
+                            <div class="alert alert-warning" role="alert">
+                                <span>{{ error }}</span>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {{ passform.submit(class="btn btn-outline-success submit-button") }}
+            </form>
+
+        </div>
     </div>
+    
+
+    {# Profile Picture Update Form #}
+    <div class="row">
+        <div class="col file">
+            <form action="" method="post" enctype="multipart/form-data">
+                {{ picform.csrf_token }}
+
+                {{ picform.picture.label(class="form-label", for="inputGroupFile01") }}
+                <div class="input-group mb-3">
+                    {{ picform.picture(type="file", class="form-control", id="inputGroupFile01") }}
+                </div>
+
+                {% if picform.picture.errors %}
+                <div class="alert alert-warning" role="alert">
+                    {% for error in picform.picture.errors %}
+                    <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {{ picform.submit(class="btn btn-outline-success submit-button") }}
+            </form>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col">
+            {# Link to see all of the current user's reviews. #}
+            <a href="{{ url_for('user_detail', username=current_user.username) }}" class="btn btn-primary">See All
+                Reviews</a>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
+
 {% endblock %}
