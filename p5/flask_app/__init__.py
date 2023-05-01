@@ -24,7 +24,19 @@ login_manager = LoginManager()
 bcrypt = Bcrypt()
 movie_client = MovieClient(os.environ.get("OMDB_API_KEY"))
 
-from .routes import main
+
+
+# ---------- Project 5 modification ----------
+
+
+# DONT import this since we already created blueprints
+#from .routes import main
+
+
+# Instead Import the blueprints
+from .movies.routes import movies_bp
+from .users.routes import users_bp
+
 
 
 def page_not_found(e):
@@ -42,9 +54,17 @@ def create_app(test_config=None):
     login_manager.init_app(app)
     bcrypt.init_app(app)
 
-    app.register_blueprint(main)
+    #app.register_blueprint(main)
+    
+    # Register Blueprint object. Once the blueprint is registered, the view functions will be accessible at the URLs specified by the @users.route decorator.
+    app.register_blueprint(movies_bp)
+    app.register_blueprint(users_bp)
+
+
     app.register_error_handler(404, page_not_found)
 
-    login_manager.login_view = "main.login"
+    login_manager.login_view = "users_bp.login"
 
     return app
+
+
